@@ -64,7 +64,7 @@
     ]
   },
   "host": {
-    "home": "/home/swank",
+    "home": "/home/david",
     "memguard_gib": 3,
     "memguard_interval_seconds": 2,
     "startup_memguard_gib": 5,
@@ -81,7 +81,7 @@
     "CUDA_CACHE_PATH": "/cache/spark-ds41f/jit/nv-compute",
     "CUDA_DEVICE_MAX_CONNECTIONS": "32",
     "DO_NOT_TRACK": "1",
-    "GLOO_SOCKET_IFNAME": "enP7s7",
+    "GLOO_SOCKET_IFNAME": "enp1s0f0np0",
     "HF_HOME": "/cache/huggingface",
     "HF_HUB_OFFLINE": "1",
     "MALLOC_ARENA_MAX": "2",
@@ -99,7 +99,7 @@
     "SPARK_DS41F_DSPARK_VOCAB_PARALLEL": "1",
     "TILELANG_CACHE_DIR": "/cache/spark-ds41f/jit/tilelang",
     "TORCH_NCCL_ASYNC_ERROR_HANDLING": "1",
-    "TP_SOCKET_IFNAME": "enP7s7",
+    "TP_SOCKET_IFNAME": "enp1s0f0np0",
     "TRANSFORMERS_OFFLINE": "1",
     "TRITON_CACHE_DIR": "/cache/spark-ds41f/jit/triton",
     "VLLM_ALLOW_LONG_MAX_MODEL_LEN": "1",
@@ -200,13 +200,13 @@
     "10"
   ],
   "distributed": {
-    "master_addr": "10.0.1.71",
+    "master_addr": "192.168.110.3",
     "master_port": "9999"
   },
   "deployment": {
     "launch_enabled": true,
-    "repository": "https://github.com/christopherowen/spark-ds41f.git",
-    "branch": "main",
+    "repository": "https://github.com/davidlowjw/spark-ds41f.git",
+    "branch": "site",
     "path": "{home}/projects/spark-ds41f",
     "ready_url": "http://127.0.0.1:8000/v1/models",
     "ready_timeout_seconds": 3600
@@ -261,13 +261,24 @@
         "NCCL_RMA_DISABLE": "1",
         "NCCL_RUNTIME_CONNECT": "1",
         "NCCL_SHM_DISABLE": "1",
-        "NCCL_SOCKET_IFNAME": "enP7s7",
+        "NCCL_SOCKET_IFNAME": "enp1s0f0np0",
         "NCCL_SWITCHLESS_BIDIRECTIONAL": "2",
         "NCCL_THREAD_THRESHOLDS": "-2 -2 -2 1 1 1",
         "SPARK_DS41F_DISPLAY_CARVEOUT_WEIGHTS": "0",
         "SPARKNET_ROCE_ALLGATHER_MAX_BYTES": "2097152"
       },
       "benchmark_reference": "manifests/suites/2026-11-07-spark-ds41f-1107-tp4"
+    },
+    "tp4-ring-4k": {
+      "notes": "Site shape (davidlowjw): tp4-ring's sizing on the stock 4 KiB DGX OS kernel without Memory Saver, as an external site ran it (docs/setup.md, experiments/2026-10-17-site-tp4-4k-1017). Unqualified: start with --unqualified-shape. Control traffic on enp1s0f0np0 (CX7 ring) because one node has no wired LAN.",
+      "extends": "tp4-ring",
+      "host": {
+        "kernel": {
+          "release": "7.0.0-1019-nvidia",
+          "page_size": 4096,
+          "memory_saver_required": false
+        }
+      }
     },
     "tp4-switched": {
       "notes": "Four nodes cabled through a switch (two ConnectX-7 paths per port); NCCL and one-shot settings are sparknet's oneshot-switched profile over tp4-ring's sizing.",
@@ -358,7 +369,7 @@
         "NCCL_P2P_NET_CHUNKSIZE": "262144",
         "NCCL_PROTO": "^LL128",
         "NCCL_SHM_DISABLE": "1",
-        "NCCL_SOCKET_IFNAME": "enP7s7",
+        "NCCL_SOCKET_IFNAME": "enp1s0f0np0",
         "NCCL_SWITCHLESS_BIDIRECTIONAL": "1",
         "NCCL_THREAD_THRESHOLDS": "-2 -2 -2 1 1 1",
         "SPARK_DS41F_DISPLAY_CARVEOUT_WEIGHTS": "1",
